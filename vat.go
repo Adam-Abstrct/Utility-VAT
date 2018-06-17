@@ -11,12 +11,14 @@ import (
 	"time"
 )
 
+// Response Object using as the core struct to map the json response too
 type Response struct {
 	Start *time.Time `json:"start,omitempty"`
 	End   *time.Time `json:"end,omitempty"`
 	Data  Data       `json:"data"`
 }
 
+// Data structure, intended to be embdeed to the response Object
 type Data struct {
 	Standard float32 `json:"standard"`
 	Reduced  float32 `json:"reduced"`
@@ -62,6 +64,8 @@ func main() {
 	}
 }
 
+// This function is designed to valid the Arguments slice, ensuring the user cannot
+// enter invalid arguments. Also delivering an error message if needed.
 func validateParams(arguments []string) (bool, error) {
 	// checks to ensure two params are given
 	if len(arguments) != 2 {
@@ -81,6 +85,8 @@ func validateParams(arguments []string) (bool, error) {
 	return true, nil
 }
 
+// This function is intended to use  go's Http client to return the response from the server
+// Upon a successful call. The response is bound to a slice of Response and returned.
 func getJSONResponse(url string) ([]Response, error) {
 	var response = []Response{}
 	var httpClient = &http.Client{
